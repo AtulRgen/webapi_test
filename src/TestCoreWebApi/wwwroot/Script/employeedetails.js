@@ -79,7 +79,7 @@ var employeedetails =
             if (q) {
 
                 employeedetails.DeleteEmployee(parseInt(id));
-                GetEmployee();
+                employeedetails.GetData();
             }
         }
 
