@@ -34,8 +34,8 @@ namespace TestCoreWebApi.Model
         { }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
-            optionsBuilder.UseSqlServer(@"Data Source=192.168.0.183;Initial Catalog=Test;User ID=sa;Password=ROOT#123;");
+            optionsBuilder.UseSqlServer(@"Data Source=203.193.138.52,6148;Initial Catalog=POC_UAT;User ID=ttsh_crio;Password=Newuser@123;");
+            //optionsBuilder.UseSqlServer(@"Data Source=192.168.0.183;Initial Catalog=Test;User ID=sa;Password=ROOT#123;");
         }
 
        
