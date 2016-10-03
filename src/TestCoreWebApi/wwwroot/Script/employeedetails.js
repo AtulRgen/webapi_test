@@ -97,7 +97,7 @@ var employeedetails =
         },
 
         DeleteEmployee: function (empId) {
-            var methodName = "DeleteEmployee"
+            var methodName = "Delete"
             $.support.cors = true;
             var url1 = url + "/" + methodName
             var data = {
