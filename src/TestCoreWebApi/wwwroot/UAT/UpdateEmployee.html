@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="../css/bootstrap.css" rel="stylesheet" />
+    <link href="../css/bootstrap-theme.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="../Script/employeedetails.js"></script>
+</head>
+<body>
+    <form class="form-horizontal">
+        <fieldset>
+
+            <!-- Form Name -->
+            <legend>Update Employee Details</legend>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="TxtFname">First Name</label>
+                <div class="col-md-4">
+                    <input id="TxtFname" name="TxtFname" type="text" placeholder="Enter First Name" class="form-control input-md">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="TxtLName">Last Name</label>
+                <div class="col-md-4">
+                    <input id="TxtLName" name="TxtLName" type="text" placeholder="Enter  Last Name" class="form-control input-md">
+
+                </div>
+            </div>
+
+            <!-- Select Basic -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="optGender">Gender</label>
+                <div class="col-md-4">
+                    <select id="optGender" name="optGender" class="form-control">
+                        <option value="1">Male</option>
+                        <option value="2">Female</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="TxtSalary">Salary</label>
+                <div class="col-md-4">
+                    <input id="TxtSalary" name="TxtSalary" type="text" placeholder="Enter Salary" class="form-control input-md">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="TxtDesignation">Designation</label>
+                <div class="col-md-4">
+                    <input id="TxtDesignation" name="TxtDesignation" type="text" placeholder="Enter Designation" class="form-control input-md">
+
+                </div>
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="TxtCity">City</label>
+                <div class="col-md-4">
+                    <input id="TxtCity" name="TxtCity" type="text" placeholder="Enter City " class="form-control input-md">
+
+                </div>
+            </div>
+
+            <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="btnSave"></label>
+                <div class="col-md-4">
+                    <button id="btnUpdate" name="btnUpdate" class="btn btn-success" onclick="UpdateEmployeeRecord()">Update</button>
+                </div>
+            </div>
+
+            <div>
+               <a class="alert-link" href="Employeedetials.html" onclick="employeedetails.GetData();">Back to View</a>
+                <label class="alert-success"></label>
+            </div>
+        </fieldset>
+    </form>
+    <script type="text/javascript">
+
+    function UpdateEmployeeRecord() {
+
+        var efname = $('#TxtFname').val();
+        var elname = $('#TxtLName').val();
+        var gender = $('#optGender').val();
+        if (gender != "") { gender = parseInt(gender); }
+        var sal = $('#TxtSalary').val();
+        if (sal != "") { sal = parseFloat(sal); }
+        var desg = $('#TxtDesignation').val();
+        var city = $('#TxtCity').val();
+
+        var data = {
+            "id": id,
+            "empName": efname,
+            "empLastName": elname,
+            "gender": gender,
+            "city": city,
+            "designation": desg,
+            "salary": sal
+        };
+
+        employeedetails.UpdateEmployee(data);
+        employeedetails.GetData();
+        window.location.href='employeedetials.html'
+       return true;
+
+
+    }
+
+
+    var id;
+    function FillData() {
+
+        var localData = window.localStorage;
+        var orderData =localData.getItem("myArr");
+        var MyArr = JSON.parse(orderData);
+        var len = MyArr.length;
+        var efname = $('#TxtFname');
+        var elname = $('#TxtLName');
+        var gender = $('#optGender');
+        var sal = $('#TxtSalary');
+        var Desig = $('#TxtDesignation');
+        var City = $('#TxtCity');
+        id = employeedetails.getParameterByName('id', window.location.href);
+
+
+        var NewArr;
+        for (var i = 0; i < len; i++) {
+            if (MyArr[i].id == id) {
+                NewArr = MyArr[i];
+                break;
+            }
+        }
+
+        if (NewArr != undefined) {
+            efname.val(NewArr.empName)
+            elname.val(NewArr.empLastName)
+            NewArr.gender == true ? gender.val(1) : gender.val(2)
+            sal.val(NewArr.salary)
+            Desig.val(NewArr.designation)
+            City.val(NewArr.city)
+        }
+
+
+    }
+
+    //window.onload = function () {
+    //    FillData();
+    //}
+
+    $(function () {
+        FillData();
+    });
+    </script>
+
+</body>
+</html>
