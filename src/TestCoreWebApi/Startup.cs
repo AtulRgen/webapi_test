@@ -63,7 +63,7 @@ namespace TestCoreWebApi
             app.UseApplicationInsightsRequestTelemetry();
 
             app.UseApplicationInsightsExceptionTelemetry();
-
+            app.UseStaticFiles();
 
 
             app.UseMvcWithDefaultRoute();
