@@ -9,13 +9,16 @@ using System.Data.SqlClient;
 using System.Data;
 using Microsoft.AspNetCore.Cors;
 
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TestCoreWebApi.Controllers
 {
     [Route("api/[controller]")]
-    [EnableCors("AllowAll")]
+    [EnableCors("AllowSpecificOrigin")]
+    [Produces("application/json")]
     public class TestController : Controller
     {
         private Employee _context;
@@ -58,7 +61,7 @@ namespace TestCoreWebApi.Controllers
 
 
         [HttpGet, Route("Getdata")]
-        [EnableCors("AllowAll")]
+        [EnableCors("AllowSpecificOrigin")]
         public IActionResult GetData()
         {
             int id = 0;
@@ -68,8 +71,20 @@ namespace TestCoreWebApi.Controllers
 
         }
 
+        [HttpGet, Route("Getdata1")]
+        [EnableCors("AllowSpecificOrigin")]
+        public JsonResult GetData1()
+        {
+            int id = 0;
+            List<EmployeeModel> employees1 = _context.empset.FromSql("exec dbo.empdal @Mode={0}", id).ToList();
+
+            return Json(employees1);
+
+        }
+
+
         [HttpPost, Route("Insert")]
-        [EnableCors("AllowAll")]
+        [EnableCors("AllowSpecificOrigin")]
         public IActionResult Insert([FromBody] EmployeeModel emps)
         {
             var ReturnVal = new SqlParameter("ReturnVal", SqlDbType.NVarChar, 5000) { Direction = ParameterDirection.Output };
@@ -105,7 +120,7 @@ namespace TestCoreWebApi.Controllers
         }
 
         [HttpPut, Route("Update")]
-        [EnableCors("AllowAll")]
+        [EnableCors("AllowSpecificOrigin")]
         public IActionResult Update([FromBody] EmployeeModel emps)
         {
 
@@ -145,7 +160,7 @@ namespace TestCoreWebApi.Controllers
         }
 
         [HttpDelete, Route("Delete")]
-        [EnableCors("AllowAll")]
+        [EnableCors("AllowSpecificOrigin")]
         public IActionResult Delete([FromBody] EmployeeModel emps)
         {
             SqlParameter Mode = new SqlParameter("@mode", SqlDbType.Int);
