@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
-    
     "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
     "Microsoft.AspNetCore.Mvc": "1.0.0",
     "Microsoft.AspNetCore.Mvc.Abstractions": "1.0.0",
@@ -28,7 +27,9 @@
       "Microsoft.Framework.CodeGenerators.Mvc": "1.0.0-beta4"
     },
     "Swashbuckle": "6.0.0-beta902",
-    "System.Data.SqlClient": "4.1.0"
+    "System.Data.SqlClient": "4.1.0",
+    "Microsoft.AspNetCore.Diagnostics": "1.0.0",
+    "Microsoft.AspNet.WebApi.Client": "5.2.3"
   },
   "commands": {
     "web": "Microsoft.AspNet.Server.Kestrel",
