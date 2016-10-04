@@ -5,15 +5,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using TestCoreWebApi.Model;
-using Microsoft.AspNetCore.Cors;
-using System.Net;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Net.Http.Formatting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using System.Web.Http;
+
+
 
 namespace TestCoreWebApi
 {
@@ -50,30 +48,30 @@ namespace TestCoreWebApi
 
             var connection = @"Data Source = 192.168.0.183; Initial Catalog = test; Integrated Security = True; Persist Security Info = True; User ID = sa; Password = ROOT#123;Trusted_Connection=True;MultipleActiveResultSets=true;";
             services.AddDbContext<Employee>(options => options.UseSqlServer(connection));
+            services.AddMvc().AddJsonOptions(options => { options.SerializerSettings.Formatting = Formatting.Indented; });
 
 
 
-
-
+            //[! for Json Indented]
+            /*
             var mvcCore = services.AddMvcCore();
-
             mvcCore.AddJsonFormatters(options => options.ContractResolver = new CamelCasePropertyNamesContractResolver());
-
-
-           
-
             services.AddMvcCore().AddCors().AddJsonFormatters();
-            services.Configure<MvcOptions>(options =>
+            services.Configure<MvcOptions>(options => { options.Filters.Add(new CorsAuthorizationFilterFactory("*")); });
+            services.AddMvc().AddJsonOptions(options => { options.SerializerSettings.Formatting = Formatting.Indented; });
+            */
+
+
+            //[! Tesing Purpose]
+            services.AddCors(options =>
             {
-                options.Filters.Add(new CorsAuthorizationFilterFactory("*"));
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder.WithOrigins("http://localhost:1025", "http://api-testatul.cloudapps.click2cloud.org:80/"));
             });
 
-            services.AddMvc().AddJsonOptions(options =>
-                    {
-                        options.SerializerSettings.Formatting = Formatting.Indented;
 
-                    });
         }
+
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
@@ -81,19 +79,23 @@ namespace TestCoreWebApi
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
             app.UseApplicationInsightsRequestTelemetry();
-
             app.UseApplicationInsightsExceptionTelemetry();
             app.UseStaticFiles();
 
+            //[! CORS]
+            /*
             app.UseCors
                 (
                 builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials()
                 );
+                */
+            app.UseCors("AllowSpecificOrigin");
 
-            
             app.UseMvcWithDefaultRoute();
+
+
+
 
 
         }
