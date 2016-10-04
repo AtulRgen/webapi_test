@@ -6,6 +6,15 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using TestCoreWebApi.Model;
 using Microsoft.AspNetCore.Cors;
+using System.Net;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Diagnostics;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System.Net.Http.Formatting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
+
 namespace TestCoreWebApi
 {
     public class Startup
@@ -44,13 +53,26 @@ namespace TestCoreWebApi
 
 
 
-            
 
-            services.AddCors(options =>
+
+            var mvcCore = services.AddMvcCore();
+
+            mvcCore.AddJsonFormatters(options => options.ContractResolver = new CamelCasePropertyNamesContractResolver());
+
+
+           
+
+            services.AddMvcCore().AddCors().AddJsonFormatters();
+            services.Configure<MvcOptions>(options =>
             {
-                options.AddPolicy("AllowAllOrigins", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
+                options.Filters.Add(new CorsAuthorizationFilterFactory("*"));
             });
-            services.AddMvc();
+
+            services.AddMvc().AddJsonOptions(options =>
+                    {
+                        options.SerializerSettings.Formatting = Formatting.Indented;
+
+                    });
         }
 
 
@@ -65,10 +87,14 @@ namespace TestCoreWebApi
             app.UseApplicationInsightsExceptionTelemetry();
             app.UseStaticFiles();
 
+            app.UseCors
+                (
+                builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials()
+                );
 
-            app.UseMvcWithDefaultRoute();
-            app.UseCors(builder =>builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
             
+            app.UseMvcWithDefaultRoute();
+
 
         }
     }
