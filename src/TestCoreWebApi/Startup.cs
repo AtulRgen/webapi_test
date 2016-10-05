@@ -85,14 +85,14 @@ namespace TestCoreWebApi
             app.UseStaticFiles();
 
             //[! CORS]
-            /*
+            
             app.UseCors
                 (
-                builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials()
+                builder => builder.WithOrigins("http://front-testatul.cloudapps.click2cloud.org/").AllowAnyHeader().AllowAnyMethod().AllowCredentials()
                 );
-                */
-            //app.UseCors("AllowSpecificOrigin");
-            app.Use(async (context, next) => { context.Response.Headers.Append("Access-Control-Allow-Origin", "*"); await next(); });
+                
+            
+            
             app.UseMvcWithDefaultRoute();
          
 
