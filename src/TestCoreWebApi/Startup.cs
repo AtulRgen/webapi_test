@@ -10,7 +10,7 @@ using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using System.Web.Http;
-
+using Microsoft.AspNetCore.Http;
 
 
 namespace TestCoreWebApi
@@ -104,7 +104,7 @@ namespace TestCoreWebApi
                .AllowAnyHeader();
             }));
             app.UseMvcWithDefaultRoute();
-
+            app.Use(async (context, next) => { context.Response.Headers.Append("Access-Control-Allow-Origin", "*"); await next(); });
 
 
 
