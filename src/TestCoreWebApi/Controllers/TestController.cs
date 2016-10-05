@@ -17,7 +17,7 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 namespace TestCoreWebApi.Controllers
 {
     [Route("api/[controller]")]
-    [EnableCors("AllowSpecificOrigin")]
+
     [Produces("application/json")]
     public class TestController : Controller
     {
@@ -61,7 +61,7 @@ namespace TestCoreWebApi.Controllers
 
 
         [HttpGet, Route("Getdata")]
-        [EnableCors("AllowSpecificOrigin")]
+       
         public IActionResult GetData()
         {
             int id = 0;
@@ -72,7 +72,7 @@ namespace TestCoreWebApi.Controllers
         }
 
         [HttpGet, Route("Getdata1")]
-        [EnableCors("AllowSpecificOrigin")]
+        
         public JsonResult GetData1()
         {
             int id = 0;
@@ -84,7 +84,7 @@ namespace TestCoreWebApi.Controllers
 
 
         [HttpPost, Route("Insert")]
-        [EnableCors("AllowSpecificOrigin")]
+
         public IActionResult Insert([FromBody] EmployeeModel emps)
         {
             var ReturnVal = new SqlParameter("ReturnVal", SqlDbType.NVarChar, 5000) { Direction = ParameterDirection.Output };
@@ -120,7 +120,7 @@ namespace TestCoreWebApi.Controllers
         }
 
         [HttpPut, Route("Update")]
-        [EnableCors("AllowSpecificOrigin")]
+    
         public IActionResult Update([FromBody] EmployeeModel emps)
         {
 
@@ -160,7 +160,7 @@ namespace TestCoreWebApi.Controllers
         }
 
         [HttpDelete, Route("Delete")]
-        [EnableCors("AllowSpecificOrigin")]
+   
         public IActionResult Delete([FromBody] EmployeeModel emps)
         {
             SqlParameter Mode = new SqlParameter("@mode", SqlDbType.Int);
