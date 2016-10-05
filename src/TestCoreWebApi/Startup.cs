@@ -52,24 +52,7 @@ namespace TestCoreWebApi
 
 
 
-            //[! for Json Indented]
-            /*
-            var mvcCore = services.AddMvcCore();
-            mvcCore.AddJsonFormatters(options => options.ContractResolver = new CamelCasePropertyNamesContractResolver());
-            services.AddMvcCore().AddCors().AddJsonFormatters();
-            services.Configure<MvcOptions>(options => { options.Filters.Add(new CorsAuthorizationFilterFactory("*")); });
-            services.AddMvc().AddJsonOptions(options => { options.SerializerSettings.Formatting = Formatting.Indented; });
-            */
-
-
-            //[! Tesing Purpose]
-            /*
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder.WithOrigins("http://localhost:1025", "http://api-testatul.cloudapps.click2cloud.org","http://front-testatul.cloudapps.click2cloud.org"));
-            });*/
-            
+                    
 
         }
 
@@ -86,10 +69,7 @@ namespace TestCoreWebApi
 
             //[! CORS]
             
-            app.UseCors
-                (
-                builder => builder.WithOrigins("http://front-testatul.cloudapps.click2cloud.org/").AllowAnyHeader().AllowAnyMethod().AllowCredentials()
-                );
+            app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
                 
             
             
