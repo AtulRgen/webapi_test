@@ -63,12 +63,18 @@ namespace TestCoreWebApi
 
 
             //[! Tesing Purpose]
+            /*
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
                     builder => builder.WithOrigins("http://localhost:1025", "http://api-testatul.cloudapps.click2cloud.org","http://front-testatul.cloudapps.click2cloud.org"));
-            });
-
+            });*/
+            services.AddCors(o => o.AddPolicy("AllowSpecificOrigin", builder =>
+             {
+                builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+             }));
 
         }
 
@@ -91,7 +97,12 @@ namespace TestCoreWebApi
                 );
                 */
             //app.UseCors("AllowSpecificOrigin");
-            app.UseCors(options => options.WithOrigins("http://localhost", "http://api-testatul.cloudapps.click2cloud.org", "http://front-testatul.cloudapps.click2cloud.org"));
+            app.UseCors(o => o.AddPolicy("AllowSpecificOrigin", builder =>
+             {
+                builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+            }));
             app.UseMvcWithDefaultRoute();
 
 
