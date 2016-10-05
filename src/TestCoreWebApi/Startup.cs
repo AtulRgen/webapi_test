@@ -66,7 +66,7 @@ namespace TestCoreWebApi
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowSpecificOrigin",
-                    builder => builder.WithOrigins("http://localhost:1025", "http://api-testatul.cloudapps.click2cloud.org:80/"));
+                    builder => builder.WithOrigins("http://localhost:1025", "http://api-testatul.cloudapps.click2cloud.org","http://front-testatul.cloudapps.click2cloud.org"));
             });
 
 
@@ -90,8 +90,8 @@ namespace TestCoreWebApi
                 builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials()
                 );
                 */
-            app.UseCors("AllowSpecificOrigin");
-
+            //app.UseCors("AllowSpecificOrigin");
+            app.UseCors(options => options.WithOrigins("http://localhost", "http://api-testatul.cloudapps.click2cloud.org", "http://front-testatul.cloudapps.click2cloud.org"));
             app.UseMvcWithDefaultRoute();
 
 
